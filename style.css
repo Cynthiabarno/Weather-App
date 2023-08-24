@@ -29,6 +29,10 @@ h2 {
 hr {
   border: 1px solid black;
 }
+.me {
+  text-align: center;
+  margin: auto;
+}
 
 button {
   transition: all 200ms ease-in-out;
