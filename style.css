@@ -40,13 +40,20 @@ button {
   border-radius: 10px;
 }
 
+.celcius,
+.fahrenheit {
+  position: relative;
+  top: -16px;
+  opacity: 0.8;
+  font-size: 15px;
+}
 .emoji {
   font-size: 40px;
 }
 
-.temp,
-.celcius {
-  font-size: 30px;
+.temp {
+  font-weight: 400;
+  font-size: 40px;
   opacity: 0.8;
 }
 
