@@ -47,9 +47,6 @@ button {
   opacity: 0.8;
   font-size: 15px;
 }
-.emoji {
-  font-size: 40px;
-}
 
 .temp {
   font-weight: 400;
@@ -59,4 +56,8 @@ button {
 
 .info {
   font-size: 18px;
+}
+
+#temperature-description {
+  text-transform: capitalize;
 }
