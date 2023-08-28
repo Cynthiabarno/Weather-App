@@ -54,6 +54,14 @@ button {
   opacity: 0.8;
 }
 
+.active {
+  color: black;
+  cursor: default;
+}
+.active:hover {
+  text-decoration: none;
+}
+
 .info {
   font-size: 18px;
 }
