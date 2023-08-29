@@ -25,6 +25,33 @@ if (minutes < 10) {
 
 time.innerHTML = `${day}, ${hours}:${minutes}`;
 
+function displayForecast() {
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = `<div class="row">`;
+  let days = ["Wed", "Thu", "Fri", "Sat", "Sun"];
+  days.forEach(function (day) {
+    forecastHTML =
+      forecastHTML +
+      `
+      <div class="col-sm">
+        <div>${day}</div>
+        <div class="icon">
+          <img
+            src="https://c.tadst.com/gfx/w/svg/wt-33.svg"
+            alt=""
+            width="50px"
+          />
+        </div>
+        <div>24 / 14 °C</div>
+      </div>
+    `;
+  });
+
+  forecastHTML = forecastHTML + `</div>`;
+  forecastElement.innerHTML = forecastHTML;
+}
+
 function showTemperature(response) {
   document.querySelector("h1").innerHTML = response.data.name;
 
@@ -102,3 +129,4 @@ let celciusLink = document.querySelector("#celcius-link");
 celciusLink.addEventListener("click", displayCelciusTemperature);
 
 let celciusTemperature = null;
+displayForecast();
