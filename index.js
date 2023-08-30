@@ -25,41 +25,58 @@ if (minutes < 10) {
 
 time.innerHTML = `${day}, ${hours}:${minutes}`;
 
-function displayForecast() {
+function formatDay(timestamp) {
+  let now = new Date(timestamp * 1000);
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let day = now.getDay();
+  return days[day];
+}
+
+function displayForecast(response) {
+  let forecast = response.data.daily;
+
   let forecastElement = document.querySelector("#forecast");
 
   let forecastHTML = `<div class="row">`;
-  let days = ["Wed", "Thu", "Fri", "Sat", "Sun"];
-  days.forEach(function (day) {
-    forecastHTML =
-      forecastHTML +
-      `
+  forecast.forEach(function (forecastDay, index) {
+    if (index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `
       <div class="col-sm">
-        <div>${day}</div>
-        <div class="icon">
+        <div>${formatDay(forecastDay.dt)}</div>
+        <div>
           <img
-            src="https://c.tadst.com/gfx/w/svg/wt-33.svg"
+            src="https://openweathermap.org/img/wn/${
+              forecastDay.weather[0].icon
+            }@2x.png"
             alt=""
-            width="50px"
+            width="50"
           />
         </div>
-        <div>24 / 14 °C</div>
+        <div>${Math.round(forecastDay.temp.max)} / ${Math.round(
+          forecastDay.temp.min
+        )} °C</div>
       </div>
     `;
+    }
   });
 
   forecastHTML = forecastHTML + `</div>`;
   forecastElement.innerHTML = forecastHTML;
 }
 
-function getWeatherForecast(coordinates) {
+function getForecast(coordinates) {
+  console.log(coordinates);
   let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
-  let url = `https://api.openweathermap.org/data/3.0/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`;
 
-  axios.get(url).then(displayForecast);
+  axios.get(apiUrl).then(displayForecast);
 }
 
 function showTemperature(response) {
+  getForecast(response.data.coord);
+
   document.querySelector("h1").innerHTML = response.data.name;
 
   celciusTemperature = response.data.main.temp;
@@ -76,8 +93,6 @@ function showTemperature(response) {
     `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
   iconElement.setAttribute("alt", response.data.weather[0].description);
-
-  getWeatherForecast(response.data.coord);
 }
 
 function searchCity(city) {
@@ -99,7 +114,7 @@ form.addEventListener("click", enterCity);
 function currentPosition(position) {
   let apiKey = "5f472b7acba333cd8a035ea85a0d4d4c";
   let apiUrl =
-    "https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=metric";
+    "https://api.openweathermap.org/data/2.5/weather?lat=${position.coord.lat}&lon=${position.coord.lon}&appid=${apiKey}&units=metric";
   axios.get(apiUrl).then(showTemperature);
 }
 
@@ -138,3 +153,5 @@ let celciusLink = document.querySelector("#celcius-link");
 celciusLink.addEventListener("click", displayCelciusTemperature);
 
 let celciusTemperature = null;
+
+searchCity("Nairobi");
